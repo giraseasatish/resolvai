@@ -1,0 +1,71 @@
+// prisma/schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  CUSTOMER
+  AGENT
+  ADMIN
+}
+
+enum TicketStatus {
+  OPEN
+  ACTIVE
+  RESOLVED
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String   @unique
+  password  String
+  role      Role     @default(CUSTOMER)
+  
+  // Relations
+  ticketsAsCustomer Ticket[] @relation("CustomerTickets")
+  ticketsAsAgent    Ticket[] @relation("AgentTickets")
+}
+
+model Product {
+  id    Int    @id @default(autoincrement())
+  name  String @unique 
+  
+  tickets Ticket[]
+}
+
+model Ticket {
+  id          Int       @id @default(autoincrement())
+  subject     String    
+  status      TicketStatus @default(OPEN)
+  
+  customerId  Int
+  customer    User      @relation("CustomerTickets", fields: [customerId], references: [id])
+  
+  agentId     Int?      
+  agent       User?     @relation("AgentTickets", fields: [agentId], references: [id])
+
+  productId   Int
+  product     Product   @relation(fields: [productId], references: [id])
+  
+  isBotActive Boolean   @default(true) 
+
+  messages    Message[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Message {
+  id        Int      @id @default(autoincrement())
+  content   String
+  senderId  Int?     // Null means sent by Gemini Bot
+  ticketId  Int
+  ticket    Ticket   @relation(fields: [ticketId], references: [id])
+  createdAt DateTime @default(now())
+}
