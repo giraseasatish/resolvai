@@ -20,7 +20,7 @@ const PORT = process.env.PORT || 5000;
 // Create Servers
 const server = http.createServer(app);
 const io = new Server(server, {
-  cors: { origin: "*", methods: ["GET", "POST"] }
+  cors: { origin: "*", methods: ["GET", "POST","PUT","DELETE"] }
 });
 
 app.set('io', io); // <--- This allows Controllers to access the Socket
