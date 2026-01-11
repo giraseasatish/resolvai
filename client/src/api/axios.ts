@@ -7,7 +7,7 @@ import axios from 'axios';
 // If on the internet (Vercel), use the Render link.
 const BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
   ? 'http://localhost:5000/api'
-  : 'https://resolvai-backend.onrender.com';
+  : 'https://resolvai-backend.onrender.com/api';
 
 // 2. Create the central "instance" of axios using that URL
 const api = axios.create({
