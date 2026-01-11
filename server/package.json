@@ -26,7 +26,11 @@
     "jsonwebtoken": "^9.0.3",
     "nodemailer": "^7.0.12",
     "socket.io": "^4.8.3",
-    "zod": "^4.3.5"
+    "zod": "^4.3.5",
+    "prisma": "^5.22.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
